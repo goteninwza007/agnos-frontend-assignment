@@ -44,12 +44,12 @@ cp .env.example .env
 
 Open `.env` and fill in the actual values:
 
-| Variable | Description |
-|---|---|
-| `PUSHER_APP_ID` | Pusher App ID (from Pusher Dashboard → App Keys) |
-| `PUSHER_KEY` | Pusher Key |
-| `PUSHER_SECRET` | Pusher Secret |
-| `NEXT_PUBLIC_PUSHER_KEY` | Same value as `PUSHER_KEY` |
+| Variable                 | Description                                      |
+| ------------------------ | ------------------------------------------------ |
+| `PUSHER_APP_ID`          | Pusher App ID (from Pusher Dashboard → App Keys) |
+| `PUSHER_KEY`             | Pusher Key                                       |
+| `PUSHER_SECRET`          | Pusher Secret                                    |
+| `NEXT_PUBLIC_PUSHER_KEY` | Same value as `PUSHER_KEY`                       |
 
 > **Note** — The Pusher cluster is fixed to `ap1` (Singapore) in the codebase. No need to add it to `.env`.
 
@@ -65,11 +65,11 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## Pages
 
-| Path | Description |
-|---|---|
-| `/` | Home — select role (Patient or Staff) |
-| `/patient` | Patient form |
-| `/staff` | Staff real-time monitor |
+| Path       | Description                           |
+| ---------- | ------------------------------------- |
+| `/`        | Home — select role (Patient or Staff) |
+| `/patient` | Patient form                          |
+| `/staff`   | Staff real-time monitor               |
 
 ---
 
@@ -129,34 +129,37 @@ Open [http://localhost:3000](http://localhost:3000)
 ### Design Decisions
 
 **Mobile**
+
 - Single column layout for all form fields
 - Full-width submit button
 - Label stacked above value in FieldRow
 
 **Desktop (md+)**
+
 - Two-column grid for form fields
 - Label and value displayed side by side in FieldRow (`sm:flex-row`)
 - Max width container (`max-w-3xl` in `PatientForm` and `max-w-2xl` in `StaffView`) centered on large screens
 
 **Form UX**
+
 - Fields are locked after submission using `fieldset disabled`
 - Toast notification displayed on successful submission
 - Validation errors shown inline below each field
 
 ### Component Architecture
 
-| Component | Purpose |
-|---|---|
-| `HomePage` | Role selection landing page (Patient or Staff) |
-| `PatientForm` | Form with validation, real-time sync, and submit logic |
-| `StaffView` | Subscribes to Pusher and renders Patient Infomation real-time sync from PatientForm |
-| `RoleCard` | For Select route to direct `patient` or `staff` |
-| `StatusBadge` | Shows Active / Inactive / Submitted status |
-| `FieldRow` | Single label-value row with `whitespace-pre-wrap` support for address |
-| `InputField` | Reusable text input with error state |
-| `SelectField` | Reusable select with error state |
-| `TextAreaField` | Reusable textarea with error state |
-| `ToastProvider` | Provides toast context for the layout |
+| Component       | Purpose                                                                             |
+| --------------- | ----------------------------------------------------------------------------------- |
+| `HomePage`      | Role selection landing page (Patient or Staff)                                      |
+| `PatientForm`   | Form with validation, real-time sync, and submit logic                              |
+| `StaffView`     | Subscribes to Pusher and renders Patient Infomation real-time sync from PatientForm |
+| `RoleCard`      | For Select route to direct `patient` or `staff`                                     |
+| `StatusBadge`   | Shows Active / Inactive / Submitted status                                          |
+| `FieldRow`      | Single label-value row with `whitespace-pre-wrap` support for address               |
+| `InputField`    | Reusable text input with error state                                                |
+| `SelectField`   | Reusable select with error state                                                    |
+| `TextAreaField` | Reusable textarea with error state                                                  |
+| `ToastProvider` | Provides toast context for the layout                                               |
 
 ### Real-Time Synchronization Flow
 
