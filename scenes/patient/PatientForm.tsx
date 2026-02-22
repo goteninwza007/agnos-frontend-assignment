@@ -8,8 +8,9 @@ import { InputField } from "@/components/ui/InputField"
 import { SelectField } from "@/components/ui/SelectField"
 import { TextAreaField } from "@/components/ui/TextAreaField"
 import toast from "react-hot-toast"
-import { CHANNEL, FORM_STATUS } from "@/types/patient/types"
+import { FORM_STATUS } from "@/types/patient/types"
 import { triggerPatientEvent } from "@/lib/pusher/trigger"
+import { PATIENT_CHANNEL } from "@/types/patient/pusher"
 
 export default function PatientForm() {
   const isSubmittedRef = useRef(false)
@@ -64,7 +65,7 @@ export default function PatientForm() {
             JSON.stringify({
               data: watchedFieldsRef.current,
               status: FORM_STATUS.INACTIVE,
-              channel: CHANNEL,
+              channel: PATIENT_CHANNEL,
             }),
           ],
           { type: "application/json" }

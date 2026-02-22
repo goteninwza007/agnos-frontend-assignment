@@ -2,24 +2,21 @@
 
 import { useEffect, useState } from "react"
 import { PatientFormValues } from "@/types/patient/patient.schema"
-import { CHANNEL, FORM_STATUS, FormStatus } from "@/types/patient/types"
+import { FORM_STATUS, FormStatus } from "@/types/patient/types"
 import { pusherClient } from "@/lib/pusher/client"
 import { StatusBadge } from "@/components/staff/StatusBadge"
 import { FieldRow } from "@/components/staff/FieldRow"
+import { FORM_UPDATE_EVENT, PATIENT_CHANNEL, PusherPayload } from "@/types/patient/pusher"
 
-type PusherPayload = {
-  data: Partial<PatientFormValues>
-  status: FormStatus
-}
 export default function StaffView() {
   const [patientData, setPatientData] = useState<Partial<PatientFormValues>>({})
   const [status, setStatus] = useState<FormStatus>(FORM_STATUS.INACTIVE)
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
   useEffect(() => {
-    const channel = pusherClient.subscribe(CHANNEL)
+    const channel = pusherClient.subscribe(PATIENT_CHANNEL)
 
-    channel.bind("form-update", (payload: PusherPayload) => {
+    channel.bind(FORM_UPDATE_EVENT, (payload: PusherPayload) => {
       setStatus(payload.status)
       setLastUpdated(new Date())
 
@@ -35,7 +32,7 @@ export default function StaffView() {
 
     return () => {
       channel.unbind_all()
-      pusherClient.unsubscribe(CHANNEL)
+      pusherClient.unsubscribe(PATIENT_CHANNEL)
     }
   }, [])
 
