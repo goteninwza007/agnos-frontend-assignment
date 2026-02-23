@@ -16,6 +16,9 @@ export default function PatientForm() {
   const isSubmittedRef = useRef(false)
   const watchedFieldsRef = useRef<Partial<PatientFormValues>>({})
   const [isLocked, setIsLocked] = useState(false)
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  const maxDate = yesterday.toISOString().split("T")[0]
 
   const {
     register,
@@ -120,6 +123,7 @@ export default function PatientForm() {
             <InputField
               label="Date of Birth"
               type="date"
+              max={maxDate}
               error={errors.dateOfBirth?.message}
               {...register("dateOfBirth")}
             />
